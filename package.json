@@ -1,0 +1,63 @@
+{
+  "name": "wordnook",
+  "version": "0.1.4",
+  "description": "\u62fe\u8bcd Wordnook \u2014 a quiet desktop vocabulary companion",
+  "main": "electron/main.js",
+  "scripts": {
+    "dev": "vite",
+    "start": "npm run build && electron .",
+    "build": "vite build",
+    "test": "node --test tests/core.test.js",
+    "test:ui": "playwright test",
+    "package:mac": "npm run build && electron-builder --mac zip --arm64 --x64",
+    "package:win": "npm run build && electron-builder --win nsis --x64"
+  },
+  "keywords": [],
+  "author": "Wordnook contributors",
+  "license": "MIT",
+  "type": "module",
+  "dependencies": {
+    "ts-fsrs": "5.4.2"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.58.2",
+    "electron": "44.7.0",
+    "electron-builder": "26.15.3",
+    "vite": "8.3.4"
+  },
+  "build": {
+    "appId": "org.wordnook.desktop",
+    "productName": "Wordnook",
+    "asar": true,
+    "files": [
+      "dist/**/*",
+      "electron/**/*",
+      "src/core.js",
+      "src/words.js",
+      "package.json",
+      "resources/**/*",
+      "src/rewards.js"
+    ],
+    "directories": {
+      "output": "release"
+    },
+    "mac": {
+      "category": "public.app-category.education",
+      "identity": null,
+      "target": [
+        "zip"
+      ],
+      "minimumSystemVersion": "12.0.0",
+      "icon": "resources/icon.icns"
+    },
+    "win": {
+      "target": "nsis",
+      "icon": "resources/icon.png"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    },
+    "compression": "store"
+  }
+}

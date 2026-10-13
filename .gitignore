@@ -1,0 +1,12 @@
+node_modules/
+dist/
+release/
+release-*/
+test-output/
+test-results/
+playwright-report/
+.DS_Store
+*.log
+learning.json*
+wordnook-backup-*.json
+.env*
