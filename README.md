@@ -4,6 +4,8 @@
 
 **状态：0.1.4 公开测试版。Mac 安装包尚未完成实机验收、Apple 开发者签名和公证。**
 
+> **Apple 芯片安装问题（2026-10-14）：** v0.1.4 已收到“应用已损坏”的实机反馈，请暂停分发该安装包。正在通过 macOS 构建、完整临时签名和启动检查生成修复测试版；以 [Actions 构建结果](https://github.com/zoeyzhaox/wordnook/actions) 和 [Releases](https://github.com/zoeyzhaox/wordnook/releases) 为准。修改源码不会自动修复你已下载的旧安装包。
+
 ## 安装前必读：需要手动允许首次打开
 
 **当前发布未签名、未公证的免费 Mac 测试版。首次打开可能出现“Apple 无法验证 Wordnook”的提示。** 这不是下载失败，也不代表 Apple 已确认应用安全。
