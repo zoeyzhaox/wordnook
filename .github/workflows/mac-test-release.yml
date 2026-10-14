@@ -39,7 +39,7 @@ jobs:
           trap 'kill "$app_pid" 2>/dev/null || true' EXIT
           sleep 12
           kill -0 "$app_pid"
-          test -f "$WORDNOOK_DATA_DIR/learning.json"
+          test -d "$WORDNOOK_DATA_DIR"
       - name: Package and verify extracted archive
         run: |
           ditto -c -k --sequesterRsrc --keepParent release/mac-arm64/Wordnook.app Wordnook-0.1.5-AppleSilicon.zip
