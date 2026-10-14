@@ -1,10 +1,11 @@
 # 拾词 Wordnook
 
+> **v0.1.5 Apple 芯片修复测试版已发布：** [下载安装包](https://github.com/zoeyzhaox/wordnook/releases/download/v0.1.5/Wordnook-0.1.5-AppleSilicon.zip)。请使用文件名带 **0.1.5** 的新包，不要继续打开旧的 Wordnook 2 / Wordnook 3。新版在 macOS Apple 芯片构建环境通过了完整临时签名校验、12 秒基础启动检查及 ZIP 解压后签名复验。这不等于已通过所有用户机器的 Gatekeeper 验收；它仍未获得 Apple Developer ID 签名或公证。若出现“已损坏”，请保留完整提示并反馈，不要关闭系统安全保护。Intel 版尚未随此版本更新。
+
+
 一个安静的桌面背词小应用：在屏幕角落顺手记一个词，也可以打开完整窗口，认真复习或玩一小局。
 
-**状态：0.1.4 公开测试版。Mac 安装包尚未完成实机验收、Apple 开发者签名和公证。**
-
-> **Apple 芯片安装问题（2026-10-14）：** v0.1.4 已收到“应用已损坏”的实机反馈，请暂停分发该安装包。正在通过 macOS 构建、完整临时签名和启动检查生成修复测试版；以 [Actions 构建结果](https://github.com/zoeyzhaox/wordnook/actions) 和 [Releases](https://github.com/zoeyzhaox/wordnook/releases) 为准。修改源码不会自动修复你已下载的旧安装包。
+**状态：v0.1.5 Apple 芯片修复测试版；未公证，用户安装验收仍在进行。**
 
 ## 安装前必读：需要手动允许首次打开
 
