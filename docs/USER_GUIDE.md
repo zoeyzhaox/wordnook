@@ -1,5 +1,8 @@
 # 拾词 Wordnook 使用手册
 
+> **v0.1.5 Apple 芯片修复测试版已发布：** [下载安装包](https://github.com/zoeyzhaox/wordnook/releases/download/v0.1.5/Wordnook-0.1.5-AppleSilicon.zip)。请使用文件名带 **0.1.5** 的新包，不要继续打开旧的 Wordnook 2 / Wordnook 3。新版在 macOS Apple 芯片构建环境通过了完整临时签名校验、12 秒基础启动检查及 ZIP 解压后签名复验。这不等于已通过所有用户机器的 Gatekeeper 验收；它仍未获得 Apple Developer ID 签名或公证。若出现“已损坏”，请保留完整提示并反馈，不要关闭系统安全保护。Intel 版尚未随此版本更新。
+
+
 适用版本：0.1.4 测试版。
 
 ## 首次打开必读：当前为未签名、未公证的 Mac 测试版
