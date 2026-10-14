@@ -1,0 +1,80 @@
+name: Build and verify Mac test release
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: [.github/workflows/mac-test-release.yml]
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: macos-14
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci
+      - run: npm test
+      - run: npm version 0.1.5 --no-git-tag-version
+      - run: npm run build
+      - name: Build ad-hoc signed Apple Silicon application
+        run: npx electron-builder --mac --arm64 --dir --publish never
+      - name: Verify nested signatures and architecture
+        run: |
+          APP="release/mac-arm64/Wordnook.app"
+          codesign --verify --deep --strict --verbose=2 "$APP"
+          codesign --display --verbose=4 "$APP" 2>&1 | tee signature-check.txt
+          lipo -verify_arch arm64 "$APP/Contents/MacOS/Wordnook"
+          test -f "$APP/Contents/_CodeSignature/CodeResources"
+      - name: Launch smoke test on Apple Silicon runner
+        shell: bash
+        run: |
+          set -euo pipefail
+          export WORDNOOK_DATA_DIR="$RUNNER_TEMP/wordnook-smoke"
+          release/mac-arm64/Wordnook.app/Contents/MacOS/Wordnook > launch-check.txt 2>&1 &
+          app_pid=$!
+          trap 'kill "$app_pid" 2>/dev/null || true' EXIT
+          sleep 12
+          kill -0 "$app_pid"
+          test -f "$WORDNOOK_DATA_DIR/learning.json"
+      - name: Package and verify extracted archive
+        run: |
+          ditto -c -k --sequesterRsrc --keepParent release/mac-arm64/Wordnook.app Wordnook-0.1.5-AppleSilicon.zip
+          mkdir archive-check
+          ditto -x -k Wordnook-0.1.5-AppleSilicon.zip archive-check
+          codesign --verify --deep --strict --verbose=2 archive-check/Wordnook.app
+          shasum -a 256 Wordnook-0.1.5-AppleSilicon.zip > SHA256SUMS.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: verified-mac-test-build
+          path: |
+            Wordnook-0.1.5-AppleSilicon.zip
+            SHA256SUMS.txt
+            signature-check.txt
+            launch-check.txt
+  publish:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: verified-mac-test-build
+      - name: Publish separate prerelease
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          RELEASE_COMMIT: ${{ github.sha }}
+        run: |
+          cat > release-notes.md <<'NOTES'
+          Fixes the v0.1.4 Mac packaging configuration that skipped bundle signing.
+          Built on macOS with an ad-hoc signature; nested signatures and the extracted ZIP are verified, followed by a basic launch check on the build runner.
+          This is NOT Apple Developer ID signed or notarized. Gatekeeper may still block a downloaded build. Passing CI is not a guarantee of installation on every Mac.
+          Apple Silicon only. Keep the previous version until your own installation is confirmed.
+          If macOS reports "damaged", report the exact warning; do not disable system-wide security.
+          NOTES
+          gh release create v0.1.5 Wordnook-0.1.5-AppleSilicon.zip SHA256SUMS.txt signature-check.txt launch-check.txt --target "$RELEASE_COMMIT" --prerelease --title "Wordnook v0.1.5 Mac packaging test" --notes-file release-notes.md
