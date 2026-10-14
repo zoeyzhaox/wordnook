@@ -27,7 +27,7 @@ jobs:
           APP="release/mac-arm64/Wordnook.app"
           codesign --verify --deep --strict --verbose=2 "$APP"
           codesign --display --verbose=4 "$APP" 2>&1 | tee signature-check.txt
-          lipo -verify_arch arm64 "$APP/Contents/MacOS/Wordnook"
+          lipo "$APP/Contents/MacOS/Wordnook" -verify_arch arm64
           test -f "$APP/Contents/_CodeSignature/CodeResources"
       - name: Launch smoke test on Apple Silicon runner
         shell: bash
