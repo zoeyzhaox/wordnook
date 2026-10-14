@@ -1,7 +1,7 @@
 {
   "name": "wordnook",
   "version": "0.1.4",
-  "description": "\u62fe\u8bcd Wordnook \u2014 a quiet desktop vocabulary companion",
+  "description": "拾词 Wordnook — a quiet desktop vocabulary companion",
   "main": "electron/main.js",
   "scripts": {
     "dev": "vite",
@@ -43,12 +43,15 @@
     },
     "mac": {
       "category": "public.app-category.education",
-      "identity": null,
+      "identity": "-",
       "target": [
         "zip"
       ],
       "minimumSystemVersion": "12.0.0",
-      "icon": "resources/icon.icns"
+      "icon": "resources/icon.icns",
+      "hardenedRuntime": true,
+      "entitlements": "resources/entitlements.mac.plist",
+      "entitlementsInherit": "resources/entitlements.mac.plist"
     },
     "win": {
       "target": "nsis",
