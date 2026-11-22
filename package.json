@@ -1,13 +1,13 @@
 {
   "name": "wordnook",
-  "version": "0.1.4",
+  "version": "0.1.6-beta.1",
   "description": "拾词 Wordnook — a quiet desktop vocabulary companion",
   "main": "electron/main.js",
   "scripts": {
     "dev": "vite",
     "start": "npm run build && electron .",
-    "build": "vite build",
-    "test": "node --test tests/core.test.js",
+    "build": "vite build && node scripts/build-preview.mjs",
+    "test": "node --test \"tests/*.test.js\"",
     "test:ui": "playwright test",
     "package:mac": "npm run build && electron-builder --mac zip --arm64 --x64",
     "package:win": "npm run build && electron-builder --win nsis --x64"

@@ -1,5 +1,6 @@
 const {contextBridge,ipcRenderer}=require('electron');
 contextBridge.exposeInMainWorld('desktop',{
+  runtime: {platform:process.platform, arch:process.arch},
   getState:()=>ipcRenderer.invoke('state:get'),
   act:action=>ipcRenderer.invoke('state:act',action),
   window:command=>ipcRenderer.invoke('window:command',command),
